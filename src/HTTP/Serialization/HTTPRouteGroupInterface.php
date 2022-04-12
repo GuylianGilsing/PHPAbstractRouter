@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace GuylianGilsing\PHPAbstractRouter\HTTP\Serialization;
 
-interface HTTPRouteGroupInterface
+use GuylianGilsing\PHPAbstractRouter\Collections\Ordering\OrderInterface;
+
+interface HTTPRouteGroupInterface extends OrderInterface
 {
     public function getPath(): string;
 

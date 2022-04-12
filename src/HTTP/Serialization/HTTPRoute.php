@@ -5,11 +5,10 @@ declare(strict_types=1);
 namespace GuylianGilsing\PHPAbstractRouter\HTTP\Serialization;
 
 use ErrorException;
-use GuylianGilsing\PHPAbstractRouter\Collections\Ordering\OrderInterface;
 use GuylianGilsing\PHPAbstractRouter\HTTP\Validation\Middleware\MiddlewareValidationInterface;
 use GuylianGilsing\PHPAbstractRouter\HTTP\Validation\Middleware\MiddlewareValidator;
 
-final class HTTPRoute implements HTTPRouteInterface, OrderInterface
+final class HTTPRoute implements HTTPRouteInterface
 {
     private string $method = '';
     private string $path = '';
