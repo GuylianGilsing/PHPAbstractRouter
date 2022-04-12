@@ -1,0 +1,45 @@
+{
+    "name": "guylianwashier/php-routing-attributes",
+    "description": "A simple package that lets you define routes through attributes inside your classes.",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Guylian Gilsing",
+            "email": "gilsingguylian@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "GuylianGilsing\\PHPAbstractRouter\\": "./src",
+            "GuylianGilsing\\PHPAbstractRouter\\Collections\\": "./src/Collections",
+            "GuylianGilsing\\PHPAbstractRouter\\Collections\\HTTP\\": "./src/Collections/HTTP",
+            "GuylianGilsing\\PHPAbstractRouter\\Collections\\Ordering\\": "./src/Collections/Ordering",
+            "GuylianGilsing\\PHPAbstractRouter\\HTTP\\": "./src/HTTP",
+            "GuylianGilsing\\PHPAbstractRouter\\HTTP\\Collecting\\": "./src/HTTP/Collecting",
+            "GuylianGilsing\\PHPAbstractRouter\\HTTP\\Collecting\\Creators\\": "./src/HTTP/Collecting/Creators",
+            "GuylianGilsing\\PHPAbstractRouter\\HTTP\\Collecting\\Extracting\\": "./src/HTTP/Collecting/Extracting",
+            "GuylianGilsing\\PHPAbstractRouter\\HTTP\\Deserialization\\": "./src/HTTP/Serialization",
+            "GuylianGilsing\\PHPAbstractRouter\\HTTP\\Serialization\\": "./src/HTTP/Serialization",
+            "GuylianGilsing\\PHPAbstractRouter\\HTTP\\Validation\\": "./src/HTTP/Validation",
+            "GuylianGilsing\\PHPAbstractRouter\\HTTP\\Validation\\Middleware\\": "./src/HTTP/Validation/Middleware"
+        }
+    },
+    "require-dev": {
+        "nunomaduro/phpinsights": "^2.2",
+        "phpunit/phpunit": "9.5"
+    },
+    "config": {
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        }
+    },
+    "scripts": {
+        "run-unit": "./vendor/bin/phpunit --configuration phpunit.xml --testsuite unit",
+        "run-unit-debug": "./vendor/bin/phpunit --configuration phpunit.xml --testsuite unit --debug",
+        "run-integration": "./vendor/bin/phpunit --configuration phpunit.xml --testsuite integration",
+        "run-integration-debug": "./vendor/bin/phpunit --configuration phpunit.xml --testsuite integration --debug",
+        "win-php-insights-analyse-cli": "./vendor/bin/phpinsights.bat analyse -v",
+        "win-php-insights-analyse-json": "./vendor/bin/phpinsights.bat analyse -v --format=json > phpinsights.json"
+    }
+}
