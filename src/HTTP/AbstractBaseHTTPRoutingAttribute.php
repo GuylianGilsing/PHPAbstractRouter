@@ -27,7 +27,7 @@ abstract class AbstractBaseHTTPRoutingAttribute extends AbstractHTTPRoutingAttri
      */
     public function __construct(
         string $path,
-        array $middlewareStack,
+        array $middlewareStack = [],
         MiddlewareValidationInterface $middlewareValidator = new MiddlewareValidator()
     ) {
         $this->path = $path;
