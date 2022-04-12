@@ -2,19 +2,23 @@
 
 declare(strict_types=1);
 
-use GuylianGilsing\PHPAbstractRouter\HTTP\Collecting\Extracting\Extractors\RoutesExtractor;
-use GuylianGilsing\PHPAbstractRouter\Tests\Fixtures\AttributeClasses\ComplexTestClass;
-use GuylianGilsing\PHPAbstractRouter\Tests\Fixtures\AttributeClasses\OnlyRoutesClass;
+use GuylianGilsing\PHPAbstractRouter\HTTP\Collecting\Extracting\RouteAttributeExtractor;
+use GuylianGilsing\PHPAbstractRouter\Tests\Fixtures\AttributeClasses\SimpleTestClass;
 
 require_once __DIR__.'/../vendor/autoload.php';
+require_once __DIR__.'/../tests/fixtures/AttributeClasses/SimpleTestClass.php';
 
-require_once __DIR__.'/../tests/fixtures/AttributeClasses/ComplexTestClass.php';
+$extractor = new RouteAttributeExtractor();
+$reflectionClass = new ReflectionClass(SimpleTestClass::class);
 
-$reflectionClass = new ReflectionClass(ComplexTestClass::class);
+$routes = $extractor->fromReflectionClass($reflectionClass);
 
-$routes = RoutesExtractor::extract($reflectionClass);
+$groupRoutes = $routes[0]->getAllRoutes();
 
-foreach($routes as $route)
+echo 'GROUP path: '.$routes[0]->getPath().' order: '.$routes[0]->getOrder().'<br/>';
+
+
+foreach($groupRoutes as $groupRoute)
 {
-    echo $route->getMethod().' path: '.$route->getPath().' order: '.$route->getOrder().'<br/>';
+    echo $groupRoute->getMethod().' path: '.$groupRoute->getPath().' order: '.$groupRoute->getOrder().'<br/>';
 }

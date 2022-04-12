@@ -7,11 +7,26 @@ namespace GuylianGilsing\PHPAbstractRouter\HTTP\Collecting;
 use ErrorException;
 use GuylianGilsing\PHPAbstractRouter\Collections\HTTP\HTTPRouteCollectionInterface;
 use GuylianGilsing\PHPAbstractRouter\HTTP\Collecting\Creators\RouteCollectionCreator;
+use GuylianGilsing\PHPAbstractRouter\HTTP\Collecting\Creators\RouteCollectionCreatorInterface;
 use GuylianGilsing\PHPAbstractRouter\HTTP\Collecting\Extracting\RouteAttributeExtractor;
+use GuylianGilsing\PHPAbstractRouter\HTTP\Collecting\Extracting\RouteAttributeExtractorInterface;
 use ReflectionClass;
 
 final class RouteAttributeCollector implements RouteAttributeCollectorInterface
 {
+    private int $totalRoutesExtracted = 0;
+
+    private ?RouteAttributeExtractorInterface $routeAttributeExtractor = null;
+    private ?RouteCollectionCreatorInterface $routeCollectionCreator = null;
+
+    public function __construct(
+        RouteAttributeExtractorInterface $routeAttributeExtractor = new RouteAttributeExtractor(),
+        RouteCollectionCreatorInterface $routeCollectionCreator = new RouteCollectionCreator()
+    ) {
+        $this->routeAttributeExtractor = $routeAttributeExtractor;
+        $this->routeCollectionCreator = $routeCollectionCreator;
+    }
+
     /**
      * Attempts to create a HTTP route collection from a class.
      *
@@ -36,13 +51,9 @@ final class RouteAttributeCollector implements RouteAttributeCollectorInterface
         }
 
         $reflectionClass = new ReflectionClass($className);
-        $routes = RouteAttributeExtractor::fromReflectionClass($reflectionClass);
+        $routes = $this->routeAttributeExtractor->fromReflectionClass($reflectionClass, $this->totalRoutesExtracted);
 
-        if (count($routes) === 0)
-        {
-            return null;
-        }
-
-        return RouteCollectionCreator::create($routes);
+        $this->totalRoutesExtracted += count($routes);
+        return $this->routeCollectionCreator->create($routes);
     }
 }

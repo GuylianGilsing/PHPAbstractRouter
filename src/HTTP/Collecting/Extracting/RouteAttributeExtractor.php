@@ -10,10 +10,8 @@ use GuylianGilsing\PHPAbstractRouter\HTTP\Serialization\HTTPRouteGroupInterface;
 use GuylianGilsing\PHPAbstractRouter\HTTP\Serialization\HTTPRouteInterface;
 use ReflectionClass;
 
-final class RouteAttributeExtractor
+final class RouteAttributeExtractor implements RouteAttributeExtractorInterface
 {
-    private static int $totalRoutesExtracted = 0;
-
     /**
      * Extracts a given attribute from an instantiated reflection class.
      *
@@ -21,20 +19,20 @@ final class RouteAttributeExtractor
      *
      * @return array<HTTPRouteInterface, HTTPRouteGroupInterface>
      */
-    public static function fromReflectionClass(ReflectionClass $class): array
+    public function fromReflectionClass(ReflectionClass $class, int $existingCount = 0): array
     {
         $extractedRoutes = [];
 
         $group = RouteGroupsExtractor::extract($class);
-        $routes = RoutesExtractor::extract($class, self::$totalRoutesExtracted);
 
         if ($group !== null)
         {
-            self::$totalRoutesExtracted += 1;
+            $existingCount += 1;
+            $routes = RoutesExtractor::extract($class, $existingCount);
 
             foreach ($routes as $route)
             {
-                self::$totalRoutesExtracted += 1;
+                $existingCount += 1;
                 $group->addRoute($route);
             }
 
@@ -42,7 +40,7 @@ final class RouteAttributeExtractor
         }
         else
         {
-            self::$totalRoutesExtracted += count($routes);
+            $routes = RoutesExtractor::extract($class, $existingCount);
             $extractedRoutes = array_merge($extractedRoutes, $routes);
         }
 

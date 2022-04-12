@@ -9,13 +9,20 @@ use GuylianGilsing\PHPAbstractRouter\Collections\HTTP\HTTPRouteCollectionInterfa
 use GuylianGilsing\PHPAbstractRouter\HTTP\Serialization\HTTPRouteGroupInterface;
 use GuylianGilsing\PHPAbstractRouter\HTTP\Serialization\HTTPRouteInterface;
 
-final class RouteCollectionCreator
+final class RouteCollectionCreator implements RouteCollectionCreatorInterface
 {
     /**
      * @param array<HTTPRouteInterface|HTTPRouteGroupInterface> $routes
+     *
+     * @return ?HTTPRouteCollectionInterface Returns a route collection when there are routes passed, null otherwise.
      */
-    public static function create(array $routes): HTTPRouteCollectionInterface
+    public function create(array $routes): ?HTTPRouteCollectionInterface
     {
+        if (count($routes) === 0)
+        {
+            return null;
+        }
+
         $collection = new HTTPRouteCollection();
 
         foreach ($routes as $route)
