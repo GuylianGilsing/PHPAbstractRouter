@@ -59,7 +59,7 @@ final class RoutesExtractorTest extends TestCase
     {
         $expectedOrder = 0;
 
-        foreach($routes as $route)
+        foreach ($routes as $route)
         {
             $expectedOrder += 1;
 

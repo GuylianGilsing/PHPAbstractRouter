@@ -88,7 +88,7 @@ final class RouteAttributeExtractorTest extends TestCase
     {
         $expectedOrder = $startOrder;
 
-        foreach($routes as $route)
+        foreach ($routes as $route)
         {
             $expectedOrder += 1;
 
