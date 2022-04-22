@@ -19,6 +19,7 @@
             "GuylianGilsing\\PHPAbstractRouter\\HTTP\\Collecting\\": "./src/HTTP/Collecting",
             "GuylianGilsing\\PHPAbstractRouter\\HTTP\\Collecting\\Creators\\": "./src/HTTP/Collecting/Creators",
             "GuylianGilsing\\PHPAbstractRouter\\HTTP\\Collecting\\Extracting\\": "./src/HTTP/Collecting/Extracting",
+            "GuylianGilsing\\PHPAbstractRouter\\HTTP\\Collecting\\Ordering\\": "./src/HTTP/Collecting/Ordering",
             "GuylianGilsing\\PHPAbstractRouter\\HTTP\\Deserialization\\": "./src/HTTP/Serialization",
             "GuylianGilsing\\PHPAbstractRouter\\HTTP\\Serialization\\": "./src/HTTP/Serialization",
             "GuylianGilsing\\PHPAbstractRouter\\HTTP\\Validation\\": "./src/HTTP/Validation",

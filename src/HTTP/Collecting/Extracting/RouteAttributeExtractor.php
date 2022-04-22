@@ -22,8 +22,7 @@ final class RouteAttributeExtractor implements RouteAttributeExtractorInterface
     public function fromReflectionClass(ReflectionClass $class, int $existingCount = 0): array
     {
         $extractedRoutes = [];
-
-        $group = RouteGroupsExtractor::extract($class);
+        $group = RouteGroupsExtractor::extract($class, $existingCount);
 
         if ($group !== null)
         {

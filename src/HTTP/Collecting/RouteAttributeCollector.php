@@ -10,6 +10,8 @@ use GuylianGilsing\PHPAbstractRouter\HTTP\Collecting\Creators\RouteCollectionCre
 use GuylianGilsing\PHPAbstractRouter\HTTP\Collecting\Creators\RouteCollectionCreatorInterface;
 use GuylianGilsing\PHPAbstractRouter\HTTP\Collecting\Extracting\RouteAttributeExtractor;
 use GuylianGilsing\PHPAbstractRouter\HTTP\Collecting\Extracting\RouteAttributeExtractorInterface;
+use GuylianGilsing\PHPAbstractRouter\HTTP\Collecting\Ordering\OrderCalculator;
+use GuylianGilsing\PHPAbstractRouter\HTTP\Collecting\Ordering\OrderCalculatorInterface;
 use ReflectionClass;
 
 final class RouteAttributeCollector implements RouteAttributeCollectorInterface
@@ -18,13 +20,16 @@ final class RouteAttributeCollector implements RouteAttributeCollectorInterface
 
     private ?RouteAttributeExtractorInterface $routeAttributeExtractor = null;
     private ?RouteCollectionCreatorInterface $routeCollectionCreator = null;
+    private ?OrderCalculatorInterface $orderCalculator = null;
 
     public function __construct(
         RouteAttributeExtractorInterface $routeAttributeExtractor = new RouteAttributeExtractor(),
-        RouteCollectionCreatorInterface $routeCollectionCreator = new RouteCollectionCreator()
+        RouteCollectionCreatorInterface $routeCollectionCreator = new RouteCollectionCreator(),
+        OrderCalculatorInterface $orderCalculator = new OrderCalculator()
     ) {
         $this->routeAttributeExtractor = $routeAttributeExtractor;
         $this->routeCollectionCreator = $routeCollectionCreator;
+        $this->orderCalculator = $orderCalculator;
     }
 
     /**
@@ -53,7 +58,8 @@ final class RouteAttributeCollector implements RouteAttributeCollectorInterface
         $reflectionClass = new ReflectionClass($className);
         $routes = $this->routeAttributeExtractor->fromReflectionClass($reflectionClass, $this->totalRoutesExtracted);
 
-        $this->totalRoutesExtracted += count($routes);
+        $this->totalRoutesExtracted += $this->orderCalculator->calculate($routes);
+
         return $this->routeCollectionCreator->create($routes);
     }
 }
