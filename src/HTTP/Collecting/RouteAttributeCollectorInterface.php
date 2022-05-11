@@ -20,4 +20,10 @@ interface RouteAttributeCollectorInterface
      * Returns a HTTP route collection if route attributes can be collected, null otherwise.
      */
     public function collectFromClassName(string $className): ?HTTPRouteCollectionInterface;
+
+    /**
+     * Updates the internal route extracted count that is used to dictate the order of each route.
+     * This method may only be called if extra routes are being registered outside of this route collection.
+     */
+    public function updateTotalRouteExtractedCount(int $newCount): void;
 }

@@ -62,4 +62,9 @@ final class RouteAttributeCollector implements RouteAttributeCollectorInterface
 
         return $this->routeCollectionCreator->create($routes);
     }
+
+    public function updateTotalRouteExtractedCount(int $newCount): void
+    {
+        $this->totalRoutesExtracted = $newCount;
+    }
 }

@@ -27,22 +27,10 @@ final class OrderCalculator implements OrderCalculatorInterface
             elseif ($route instanceof HTTPRouteGroupInterface)
             {
                 $finalOrderCount += 1;
-                $finalOrderCount += $this->getCountOfGroupRoutes($route);
+                $finalOrderCount += $route->getTotalRouteCount();
             }
         }
 
         return $finalOrderCount;
-    }
-
-    private function getCountOfGroupRoutes(HTTPRouteGroupInterface $group): int
-    {
-        $finalCount = 0;
-
-        foreach ($group->getAllRoutes() as $route)
-        {
-            $finalCount += 1;
-        }
-
-        return $finalCount;
     }
 }

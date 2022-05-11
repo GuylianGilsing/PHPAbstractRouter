@@ -70,6 +70,14 @@ final class HTTPRouteCollection implements HTTPRouteCollectionInterface
         return RouteGroupsDeserializer::deserialize($this->routeGroups);
     }
 
+    public function getTotalRouteCount(): int
+    {
+        $routeCount = count($this->routes);
+        $groupCount = $this->getRouteGroupCount();
+
+        return $routeCount + $groupCount;
+    }
+
     /**
      * Registers a key => value pair inside an array if the key is not set. The value will always be an empty array.
      *
@@ -82,5 +90,17 @@ final class HTTPRouteCollection implements HTTPRouteCollectionInterface
         {
             $array[$key] = [];
         }
+    }
+
+    private function getRouteGroupCount(): int
+    {
+        $count = 0;
+
+        foreach ($this->routeGroups as $group)
+        {
+            $count += $group->getTotalRouteCount();
+        }
+
+        return $count;
     }
 }
