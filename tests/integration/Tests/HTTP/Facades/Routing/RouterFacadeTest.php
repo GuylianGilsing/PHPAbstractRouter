@@ -10,11 +10,13 @@ use GuylianGilsing\PHPAbstractRouter\HTTP\Facades\Routing\GroupRouteRegistererFa
 use GuylianGilsing\PHPAbstractRouter\HTTP\Facades\Routing\RouterFacade;
 use GuylianGilsing\PHPAbstractRouter\HTTP\Serialization\HTTPRoute;
 use GuylianGilsing\PHPAbstractRouter\HTTP\Serialization\HTTPRouteGroup;
+use GuylianGilsing\PHPAbstractRouter\Tests\Fixtures\AttributeClasses\ComplexTestClass;
 use GuylianGilsing\PHPAbstractRouter\Tests\Fixtures\AttributeClasses\OnlyRoutesClass;
 use GuylianGilsing\PHPAbstractRouter\Tests\Fixtures\AttributeClasses\SimpleTestClass;
 use GuylianGilsing\PHPAbstractRouter\Tests\Integration\Mocks\Dispatching\HTTP\GroupRouteDispatcherMock;
 use GuylianGilsing\PHPAbstractRouter\Tests\Integration\Mocks\Dispatching\HTTP\ManualAndClassRoutesDispatcherMock;
 use GuylianGilsing\PHPAbstractRouter\Tests\Integration\Mocks\Dispatching\HTTP\OnlyRoutesRouteDispatcherMock;
+use GuylianGilsing\PHPAbstractRouter\Tests\Integration\Mocks\Dispatching\HTTP\OrderCheckDispatcherMock;
 use PHPUnit\Framework\TestCase;
 
 final class RouterFacadeTest extends TestCase
@@ -91,7 +93,40 @@ final class RouterFacadeTest extends TestCase
                             ->get('/testing', '', '');
 
         // Assert
-        $router->dispatch();
+        $router->dispatch(); // Assertions are being done within the mock
+    }
+
+    public function testIfSimpleRouteOrderIsCorrect(): void
+    {
+        // Arrange
+        $mock = new OrderCheckDispatcherMock();
+        $router = new RouterFacade($mock);
+
+        // Act
+        $router->register()->get('/test', '', '')
+                            ->fromClass(SimpleTestClass::class)
+                            ->post('/test', '', '');
+        // Assert
+        $router->dispatch(); // Assertions are being done within the mock
+    }
+
+    public function testIfComplexRouteOrderIsCorrect(): void
+    {
+        // Arrange
+        $mock = new OrderCheckDispatcherMock();
+        $router = new RouterFacade($mock);
+
+        // Act
+        $router->register()->fromClass(ComplexTestClass::class)
+                            ->get('/test', '', '')
+                            ->group('/testing', function(GroupRouteRegistererFacade $group) {
+                                $group->get('/1', '', '');
+                                $group->get('/2', '', '');
+                                $group->post('/2', '', '');
+                            })
+                            ->post('/test', '', '');
+        // Assert
+        $router->dispatch(); // Assertions are being done within the mock
     }
 
     private function getSimpleExpectedData(): HTTPRouteCollectionInterface

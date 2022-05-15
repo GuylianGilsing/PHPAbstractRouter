@@ -28,7 +28,7 @@ final class OnlyRoutesRouteDispatcherMock extends TestCase implements HTTPRouteD
 
         $receivedRoutes = $routeCollections[0]->getAllRoutes();
         $receivedRouteGroups = $routeCollections[0]->getAllRouteGroups();
-        
+
         $this->assertEquals(count($expectedRoutes), count($receivedRoutes));
         $this->assertEquals(count($expectedRouteGroups), count($receivedRouteGroups));
 

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace GuylianGilsing\PHPAbstractRouter\Dispatching\HTTP;
 
+use GuylianGilsing\PHPAbstractRouter\Collections\HTTP\HTTPRouteCollectionInterface;
+
 interface HTTPRouteDispatcherInterface
 {
     /**

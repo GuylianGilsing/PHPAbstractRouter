@@ -30,7 +30,12 @@ final class RouterFacade
 
         $this->internalRouteCollection = new HTTPRouteCollection();
         $this->orderHandler = new RouteRegisterOrder();
-        $this->routeRegisterer = new RouteRegistererFacade($routeAttributeCollector, $this->internalRouteCollection, $this->orderHandler);
+
+        $this->routeRegisterer = new RouteRegistererFacade(
+            $routeAttributeCollector,
+            $this->internalRouteCollection,
+            $this->orderHandler
+        );
     }
 
     public function register(): RouteRegistererFacade

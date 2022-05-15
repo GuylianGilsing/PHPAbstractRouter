@@ -19,8 +19,7 @@ final class RouteRegistererFacade
         RouteAttributeCollectorInterface $routeAttributeCollector,
         HTTPRouteCollectionInterface $routeCollection,
         RouteRegisterOrder $orderHandler
-    )
-    {
+    ) {
         $this->routeAttributeCollector = $routeAttributeCollector;
         $this->routeCollection = $routeCollection;
         $this->orderHandler = $orderHandler;
@@ -34,13 +33,12 @@ final class RouteRegistererFacade
      */
     public function fromClass(string $className): RouteRegistererFacade
     {
+        $this->routeAttributeCollector->updateTotalRouteExtractedCount($this->orderHandler->getOrder());
         $routeCollection = $this->routeAttributeCollector->collectFromClassName($className);
 
         if ($routeCollection !== null)
         {
             $this->orderHandler->setOrder($routeCollection->getTotalRouteCount());
-            $this->routeCollections[] = $routeCollection;
-
             $this->routeCollection->fromExistingCollection($routeCollection);
         }
 
@@ -135,7 +133,9 @@ final class RouteRegistererFacade
         $routeRegisterer = new GroupRouteRegistererFacade($group, $this->orderHandler->getOrder());
         call_user_func($callback, $routeRegisterer);
 
+        $this->orderHandler->add($group->getTotalRouteCount());
         $this->routeCollection->addRouteGroup($group);
+        
         return $this;
     }
 
