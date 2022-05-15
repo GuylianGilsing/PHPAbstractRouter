@@ -1,12 +1,14 @@
 <?php
+
+declare(strict_types=1);
+
 namespace GuylianGilsing\PHPAbstractRouter\Tests\Integration\Mocks\Dispatching\HTTP;
 
-use ErrorException;
 use GuylianGilsing\PHPAbstractRouter\Collections\HTTP\HTTPRouteCollectionInterface;
 use GuylianGilsing\PHPAbstractRouter\Dispatching\HTTP\HTTPRouteDispatcherInterface;
 use PHPUnit\Framework\TestCase;
 
-final class SimpleRouteDispatcherMock extends TestCase implements HTTPRouteDispatcherInterface
+final class OnlyRoutesRouteDispatcherMock extends TestCase implements HTTPRouteDispatcherInterface
 {
     private ?HTTPRouteCollectionInterface $routeCollection = null;
 

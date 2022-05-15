@@ -9,4 +9,6 @@ require_once __DIR__.'/fixtures/AttributeClasses/OnlyRoutesClass.php';
 require_once __DIR__.'/fixtures/AttributeClasses/ComplexTestClass.php';
 
 // Include test mocks
-require_once __DIR__.'/integration/Mocks/Dispatching/HTTP/SimpleRouteDispatcherMock.php';
+require_once __DIR__.'/integration/Mocks/Dispatching/HTTP/OnlyRoutesRouteDispatcherMock.php';
+require_once __DIR__.'/integration/Mocks/Dispatching/HTTP/GroupRouteDispatcherMock.php';
+require_once __DIR__.'/integration/Mocks/Dispatching/HTTP/ManualAndClassRoutesDispatcherMock.php';

@@ -10,7 +10,7 @@ use GuylianGilsing\PHPAbstractRouter\HTTP\Group;
 #[Group('/test')]
 final class SimpleTestClass
 {
-    #[GET('/')]
+    #[GET('')]
     public function renderIndex() : string
     {
         return "index.php";

@@ -5,18 +5,46 @@ declare(strict_types=1);
 namespace GuylianGilsing\PHPAbstractRouter\HTTP\Facades\Routing;
 
 use GuylianGilsing\PHPAbstractRouter\Collections\HTTP\HTTPRouteCollectionInterface;
+use GuylianGilsing\PHPAbstractRouter\HTTP\Collecting\RouteAttributeCollectorInterface;
 use GuylianGilsing\PHPAbstractRouter\HTTP\Serialization\HTTPRoute;
 use GuylianGilsing\PHPAbstractRouter\HTTP\Serialization\HTTPRouteGroup;
 
 final class RouteRegistererFacade
 {
+    private ?RouteAttributeCollectorInterface $routeAttributeCollector = null;
     private ?HTTPRouteCollectionInterface $routeCollection = null;
     private ?RouteRegisterOrder $orderHandler = null;
 
-    public function __construct(HTTPRouteCollectionInterface $routeCollection, RouteRegisterOrder $orderHandler)
+    public function __construct(
+        RouteAttributeCollectorInterface $routeAttributeCollector,
+        HTTPRouteCollectionInterface $routeCollection,
+        RouteRegisterOrder $orderHandler
+    )
     {
+        $this->routeAttributeCollector = $routeAttributeCollector;
         $this->routeCollection = $routeCollection;
         $this->orderHandler = $orderHandler;
+    }
+
+    /**
+     * @param string $className The name to the class. This is the name of `YOUR_CLASS_NAME::class`.
+     *
+     * @throws ErrorException This exception is thrown if no class name is given.
+     * @throws ErrorException This exception is thrown if the class does not exist.
+     */
+    public function fromClass(string $className): RouteRegistererFacade
+    {
+        $routeCollection = $this->routeAttributeCollector->collectFromClassName($className);
+
+        if ($routeCollection !== null)
+        {
+            $this->orderHandler->setOrder($routeCollection->getTotalRouteCount());
+            $this->routeCollections[] = $routeCollection;
+
+            $this->routeCollection->fromExistingCollection($routeCollection);
+        }
+
+        return $this;
     }
 
     /**
@@ -101,9 +129,10 @@ final class RouteRegistererFacade
      */
     public function group(string $path, callable $callback, array $middlewareStack = []): RouteRegistererFacade
     {
-        $group = new HTTPRouteGroup($path, 0, $middlewareStack);
+        $this->orderHandler->add(1);
+        $group = new HTTPRouteGroup($path, $this->orderHandler->getOrder(), $middlewareStack);
 
-        $routeRegisterer = new GroupRouteRegistererFacade($group, 0);
+        $routeRegisterer = new GroupRouteRegistererFacade($group, $this->orderHandler->getOrder());
         call_user_func($callback, $routeRegisterer);
 
         $this->routeCollection->addRouteGroup($group);

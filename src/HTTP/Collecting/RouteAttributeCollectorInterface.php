@@ -16,7 +16,7 @@ interface RouteAttributeCollectorInterface
      * @throws ErrorException This exception is thrown if no class name is given.
      * @throws ErrorException This exception is thrown if the class does not exist.
      *
-     * @return ?GuylianGilsing\PHPAbstractRouter\Collections\HTTP\HTTPRouteCollectionInterface
+     * @return ?HTTPRouteCollectionInterface
      * Returns a HTTP route collection if route attributes can be collected, null otherwise.
      */
     public function collectFromClassName(string $className): ?HTTPRouteCollectionInterface;

@@ -20,7 +20,6 @@ final class RouterFacade
     private ?RouteRegisterOrder $orderHandler = null;
     private ?RouteRegistererFacade $routeRegisterer = null;
     private ?HTTPRouteDispatcherInterface $routeDispatcher = null;
-    private ?RouteAttributeCollectorInterface $routeAttributeCollector = null;
 
     public function __construct(
         HTTPRouteDispatcherInterface $routeDispatcher,
@@ -31,24 +30,7 @@ final class RouterFacade
 
         $this->internalRouteCollection = new HTTPRouteCollection();
         $this->orderHandler = new RouteRegisterOrder();
-        $this->routeRegisterer = new RouteRegistererFacade($this->internalRouteCollection, $this->orderHandler);
-    }
-
-    /**
-     * @param string $className The name to the class. This is the name of `YOUR_CLASS_NAME::class`.
-     *
-     * @throws ErrorException This exception is thrown if no class name is given.
-     * @throws ErrorException This exception is thrown if the class does not exist.
-     */
-    public function fromClass(string $className): void
-    {
-        $routeCollection = $this->routeAttributeCollector->collectFromClassName($className);
-
-        if ($routeCollection !== null)
-        {
-            $this->orderHandler->setOrder($routeCollection->getTotalRouteCount());
-            $this->routeCollections[] = $routeCollection;
-        }
+        $this->routeRegisterer = new RouteRegistererFacade($routeAttributeCollector, $this->internalRouteCollection, $this->orderHandler);
     }
 
     public function register(): RouteRegistererFacade
