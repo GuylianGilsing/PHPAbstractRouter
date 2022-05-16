@@ -66,6 +66,7 @@ return [
         \PHP_CodeSniffer\Standards\Generic\Sniffs\Formatting\SpaceAfterNotSniff::class,
         \SlevomatCodingStandard\Sniffs\Classes\SuperfluousInterfaceNamingSniff::class,
         \SlevomatCodingStandard\Sniffs\Classes\SuperfluousAbstractClassNamingSniff::class,
+        \NunoMaduro\PhpInsights\Domain\Sniffs\ForbiddenSetterSniff::class,
     ],
 
     'config' => [

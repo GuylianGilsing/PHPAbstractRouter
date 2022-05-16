@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace GuylianGilsing\PHPAbstractRouter\Fixtures\AttributeClasses;
+namespace GuylianGilsing\PHPAbstractRouter\Tests\Fixtures\AttributeClasses;
 
 use GuylianGilsing\PHPAbstractRouter\HTTP\GET;
 use GuylianGilsing\PHPAbstractRouter\HTTP\Group;
@@ -10,7 +10,7 @@ use GuylianGilsing\PHPAbstractRouter\HTTP\Group;
 #[Group('/test')]
 final class SimpleTestClass
 {
-    #[GET('/')]
+    #[GET('')]
     public function renderIndex() : string
     {
         return "index.php";

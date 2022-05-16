@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace GuylianGilsing\PHPAbstractRouter\Tests\Integration\HTTP\Collecting\Extracting\Extractors;
+namespace GuylianGilsing\PHPAbstractRouter\Tests\Unit\HTTP\Collecting\Extracting\Extractors;
 
 use GuylianGilsing\PHPAbstractRouter\Collections\Ordering\OrderInterface;
-use GuylianGilsing\PHPAbstractRouter\Fixtures\AttributeClasses\OnlyGroupClass;
-use GuylianGilsing\PHPAbstractRouter\Fixtures\AttributeClasses\OnlyRoutesClass;
+use GuylianGilsing\PHPAbstractRouter\Tests\Fixtures\AttributeClasses\OnlyGroupClass;
+use GuylianGilsing\PHPAbstractRouter\Tests\Fixtures\AttributeClasses\OnlyRoutesClass;
 use GuylianGilsing\PHPAbstractRouter\HTTP\Collecting\Extracting\Extractors\RouteGroupsExtractor;
 use GuylianGilsing\PHPAbstractRouter\HTTP\Serialization\HTTPRouteGroupInterface;
 use PHPUnit\Framework\TestCase;
@@ -30,7 +30,7 @@ final class RouteGroupsExtractorTest extends TestCase
         $this->assertEquals(1, $group->getOrder());
     }
 
-    public function testCannotExtractGroupFromNonGroupFile(): void
+    public function testCanNotExtractGroupFromNonGroupFile(): void
     {
         // Arrange
         $reflectionClass = new ReflectionClass(OnlyRoutesClass::class);

@@ -7,11 +7,31 @@ namespace GuylianGilsing\PHPAbstractRouter\HTTP\Collecting;
 use ErrorException;
 use GuylianGilsing\PHPAbstractRouter\Collections\HTTP\HTTPRouteCollectionInterface;
 use GuylianGilsing\PHPAbstractRouter\HTTP\Collecting\Creators\RouteCollectionCreator;
+use GuylianGilsing\PHPAbstractRouter\HTTP\Collecting\Creators\RouteCollectionCreatorInterface;
 use GuylianGilsing\PHPAbstractRouter\HTTP\Collecting\Extracting\RouteAttributeExtractor;
+use GuylianGilsing\PHPAbstractRouter\HTTP\Collecting\Extracting\RouteAttributeExtractorInterface;
+use GuylianGilsing\PHPAbstractRouter\HTTP\Collecting\Ordering\OrderCalculator;
+use GuylianGilsing\PHPAbstractRouter\HTTP\Collecting\Ordering\OrderCalculatorInterface;
 use ReflectionClass;
 
 final class RouteAttributeCollector implements RouteAttributeCollectorInterface
 {
+    private int $totalRoutesExtracted = 0;
+
+    private ?RouteAttributeExtractorInterface $routeAttributeExtractor = null;
+    private ?RouteCollectionCreatorInterface $routeCollectionCreator = null;
+    private ?OrderCalculatorInterface $orderCalculator = null;
+
+    public function __construct(
+        RouteAttributeExtractorInterface $routeAttributeExtractor = new RouteAttributeExtractor(),
+        RouteCollectionCreatorInterface $routeCollectionCreator = new RouteCollectionCreator(),
+        OrderCalculatorInterface $orderCalculator = new OrderCalculator()
+    ) {
+        $this->routeAttributeExtractor = $routeAttributeExtractor;
+        $this->routeCollectionCreator = $routeCollectionCreator;
+        $this->orderCalculator = $orderCalculator;
+    }
+
     /**
      * Attempts to create a HTTP route collection from a class.
      *
@@ -36,13 +56,15 @@ final class RouteAttributeCollector implements RouteAttributeCollectorInterface
         }
 
         $reflectionClass = new ReflectionClass($className);
-        $routes = RouteAttributeExtractor::fromReflectionClass($reflectionClass);
+        $routes = $this->routeAttributeExtractor->fromReflectionClass($reflectionClass, $this->totalRoutesExtracted);
 
-        if (count($routes) === 0)
-        {
-            return null;
-        }
+        $this->totalRoutesExtracted += $this->orderCalculator->calculate($routes);
 
-        return RouteCollectionCreator::create($routes);
+        return $this->routeCollectionCreator->create($routes);
+    }
+
+    public function updateTotalRouteExtractedCount(int $newCount): void
+    {
+        $this->totalRoutesExtracted = $newCount;
     }
 }

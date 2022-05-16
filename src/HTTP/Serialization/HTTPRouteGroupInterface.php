@@ -29,4 +29,9 @@ interface HTTPRouteGroupInterface extends OrderInterface
      * @return array<HTTPRouteInterface>
      */
     public function getAllRoutes(): array;
+
+    /**
+     * Returns the count of the total amount of routes inside this route group.
+     */
+    public function getTotalRouteCount(): int;
 }

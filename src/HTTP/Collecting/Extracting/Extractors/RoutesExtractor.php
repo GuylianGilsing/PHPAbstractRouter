@@ -7,6 +7,7 @@ namespace GuylianGilsing\PHPAbstractRouter\HTTP\Collecting\Extracting\Extractors
 use GuylianGilsing\PHPAbstractRouter\HTTP\AbstractHTTPRoutingAttribute;
 use GuylianGilsing\PHPAbstractRouter\HTTP\Serialization\HTTPRoute;
 use GuylianGilsing\PHPAbstractRouter\HTTP\Serialization\HTTPRouteInterface;
+use ReflectionAttribute;
 use ReflectionClass;
 use ReflectionMethod;
 
@@ -20,14 +21,17 @@ final class RoutesExtractor
      */
     public static function extract(ReflectionClass $class, int $existingCount = 0): array
     {
-        $routes = [];
+        $extractedRoutes = [];
 
         foreach ($class->getMethods() as $method)
         {
-            $routes = array_merge($routes, self::getRoutesFromMethod($class, $method, $existingCount));
+            $routes = self::getRoutesFromMethod($class, $method, $existingCount);
+            $extractedRoutes = array_merge($extractedRoutes, $routes);
+
+            $existingCount += count($routes);
         }
 
-        return $routes;
+        return $extractedRoutes;
     }
 
     /**
@@ -42,11 +46,13 @@ final class RoutesExtractor
     ): array {
         $routes = [];
 
-        foreach ($method->getAttributes(AbstractHTTPRoutingAttribute::class) as $attribute)
-        {
+        foreach (
+            $method->getAttributes(AbstractHTTPRoutingAttribute::class, ReflectionAttribute::IS_INSTANCEOF)
+            as $attribute
+        ) {
             $attribute = AttributeInstantiator::instantiate($attribute);
 
-            if ($attribute !== null && $attribute instanceof AbstractHTTPRoutingAttribute)
+            if ($attribute !== null)
             {
                 $existingCount += 1;
 

@@ -96,6 +96,11 @@ final class HTTPRouteGroup implements HTTPRouteGroupInterface
         return RoutesDeserializer::deserialize($this->routes);
     }
 
+    public function getTotalRouteCount(): int
+    {
+        return count($this->routes);
+    }
+
     /**
      * Validate an array of class strings.
      *

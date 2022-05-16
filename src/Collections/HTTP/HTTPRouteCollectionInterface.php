@@ -33,4 +33,11 @@ interface HTTPRouteCollectionInterface
      * @return array<HTTPRouteGroupInterface>
      */
     public function getAllRouteGroups(): array;
+
+    /**
+     * Returns the count of the total amount of routes inside this collection.
+     */
+    public function getTotalRouteCount(): int;
+
+    public function fromExistingCollection(HTTPRouteCollectionInterface $collection): void;
 }
