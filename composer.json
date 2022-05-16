@@ -1,6 +1,6 @@
 {
-    "name": "guylianwashier/php-routing-attributes",
-    "description": "A simple package that lets you define routes through attributes inside your classes.",
+    "name": "guyliangilsing/php-abstract-router",
+    "description": "A simple package that provides you with a framework agnostic router.",
     "type": "library",
     "license": "MIT",
     "authors": [
