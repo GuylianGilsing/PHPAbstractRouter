@@ -3,7 +3,7 @@ on:
   push:
     branches: ["main"]
 jobs:
-  quality-assurance:
+  quality-assurance-and-release:
     runs-on: "ubuntu-latest"
     steps:
       # Action setup
@@ -26,17 +26,10 @@ jobs:
         run: composer run tests:unit
       - name: Run integration tests
         run: composer run tests:integration
-  create-release:
-    runs-on: "ubuntu-latest"
-    steps:
+      # Auto release
       - uses: "marvinpinto/action-automatic-releases@latest"
         with:
           automatic_release_tag: latest
           draft: false
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
           prerelease: false
-          files: |
-            src/*.php
-            composer.json
-            composer.lock
-            LICENSE
