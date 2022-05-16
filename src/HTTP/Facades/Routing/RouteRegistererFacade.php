@@ -135,7 +135,7 @@ final class RouteRegistererFacade
 
         $this->orderHandler->add($group->getTotalRouteCount());
         $this->routeCollection->addRouteGroup($group);
-        
+
         return $this;
     }
 
