@@ -40,11 +40,12 @@
         }
     },
     "scripts": {
-        "run-unit": "./vendor/bin/phpunit --configuration phpunit.xml --testsuite unit",
-        "run-unit-debug": "./vendor/bin/phpunit --configuration phpunit.xml --testsuite unit --debug",
-        "run-integration": "./vendor/bin/phpunit --configuration phpunit.xml --testsuite integration",
-        "run-integration-debug": "./vendor/bin/phpunit --configuration phpunit.xml --testsuite integration --debug",
-        "win-php-insights-analyse-cli": "./vendor/bin/phpinsights.bat analyse -v",
-        "win-php-insights-analyse-json": "./vendor/bin/phpinsights.bat analyse -v --format=json > phpinsights.json"
+        "tests:unit": "./vendor/bin/phpunit --configuration phpunit.xml --testsuite unit",
+        "tests:unit-debug": "./vendor/bin/phpunit --configuration phpunit.xml --testsuite unit --debug",
+        "tests:integration": "./vendor/bin/phpunit --configuration phpunit.xml --testsuite integration",
+        "tests:integration-debug": "./vendor/bin/phpunit --configuration phpunit.xml --testsuite integration --debug",
+        "code:win-insights-cli": "./vendor/bin/phpinsights.bat analyse -v",
+        "code:lin-insights-cli": "./vendor/bin/phpinsights analyse -v",
+        "code:win-insights-json": "./vendor/bin/phpinsights.bat analyse -v --format=json > phpinsights.json"
     }
 }
