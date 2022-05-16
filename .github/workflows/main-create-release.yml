@@ -29,15 +29,14 @@ jobs:
   create-release:
     runs-on: "ubuntu-latest"
     steps:
-      - name: Create latest release
-        uses: "marvinpinto/action-automatic-releases@latest"
-          with:
-            automatic_release_tag: latest
-            draft: false
-            repo_token: "${{ secrets.GITHUB_TOKEN }}"
-            prerelease: false
-            files: |
-              src/*.php
-              composer.json
-              composer.lock
-              LICENSE
+      - uses: "marvinpinto/action-automatic-releases@latest"
+        with:
+          automatic_release_tag: latest
+          draft: false
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          prerelease: false
+          files: |
+            src/*.php
+            composer.json
+            composer.lock
+            LICENSE
