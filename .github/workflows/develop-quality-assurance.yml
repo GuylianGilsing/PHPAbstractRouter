@@ -1,8 +1,6 @@
-name: "Quality assurance on dev branche"
+name: "Quality assurance on develop branche"
 on:
   push:
-    branches: ["develop"]
-  pull_request:
     branches: ["develop"]
 jobs:
   quality-assurance:
