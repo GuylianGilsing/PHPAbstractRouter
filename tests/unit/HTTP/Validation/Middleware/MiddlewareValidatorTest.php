@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace GuylianGilsing\PHPAbstractRouter\Tests\Unit\HTTP\Validation\Middleware;
 
-use GuylianGilsing\PHPAbstractRouter\HTTP\Validation\Middleware\MiddlewareValidationInterface;
-use GuylianGilsing\PHPAbstractRouter\HTTP\Validation\Middleware\MiddlewareValidator;
+use PHPAbstractRouter\HTTP\Validation\Middleware\MiddlewareValidationInterface;
+use PHPAbstractRouter\HTTP\Validation\Middleware\MiddlewareValidator;
 use PHPUnit\Framework\TestCase;
 use stdClass;
 
@@ -48,7 +48,7 @@ final class MiddlewareValidatorTest extends TestCase
     {
         // Arrange
         $validator = $this->getValidator();
-        
+
         // Act
         $validator->validate([12]);
 
@@ -60,7 +60,7 @@ final class MiddlewareValidatorTest extends TestCase
     {
         // Arrange
         $validator = $this->getValidator();
-        
+
         // Act
         $validator->validate([null]);
 
@@ -72,7 +72,7 @@ final class MiddlewareValidatorTest extends TestCase
     {
         // Arrange
         $validator = $this->getValidator();
-        
+
         // Act
         $validator->validate([new stdClass()]);
 

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace GuylianGilsing\PHPAbstractRouter\HTTP\Validation\Middleware;
+namespace PHPAbstractRouter\HTTP\Validation\Middleware;
 
 final class MiddlewareValidator implements MiddlewareValidationInterface
 {
