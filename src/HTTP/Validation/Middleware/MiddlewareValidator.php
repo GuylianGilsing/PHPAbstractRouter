@@ -30,7 +30,7 @@ final class MiddlewareValidator implements MiddlewareValidationInterface
                 return;
             }
 
-            if (!class_exists($middleware, false))
+            if (!class_exists($middleware))
             {
                 $this->errorMessages[] = '
                     Given middleware class name does not exist. Please enter a valid class name.
