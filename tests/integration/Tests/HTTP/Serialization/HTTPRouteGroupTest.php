@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace GuylianGilsing\PHPAbstractRouter\Tests\Integration\HTTP\Serialization;
 
 use ErrorException;
-use GuylianGilsing\PHPAbstractRouter\HTTP\Serialization\HTTPRoute;
-use GuylianGilsing\PHPAbstractRouter\HTTP\Serialization\HTTPRouteGroup;
+use PHPAbstractRouter\HTTP\Abstractions\HTTPRoute;
+use PHPAbstractRouter\HTTP\Abstractions\HTTPRouteGroup;
 use PHPUnit\Framework\TestCase;
 
 final class HTTPRouteGroupTest extends TestCase
@@ -15,7 +15,7 @@ final class HTTPRouteGroupTest extends TestCase
     {
         // Arrange
         $group = $this->getTestRouteGroup();
-        $route = new HTTPRoute('GET', '/test', 2, '', '');
+        $route = new HTTPRoute('GET', '/test', '', '');
 
         // Act
         $group->addRoute($route);
@@ -33,7 +33,7 @@ final class HTTPRouteGroupTest extends TestCase
         $this->expectException(ErrorException::class);
 
         $group = $this->getTestRouteGroup();
-        $route = new HTTPRoute('GET', '/test', 2, '', '');
+        $route = new HTTPRoute('GET', '/test', '', '');
         $group->addRoute($route);
 
         // Act
@@ -44,8 +44,8 @@ final class HTTPRouteGroupTest extends TestCase
     {
         // Arrange
         $group = $this->getTestRouteGroup();
-        $route1 = new HTTPRoute('GET', '/test', 2, '', '');
-        $route2 = new HTTPRoute('POST', '/test', 3, '', '');
+        $route1 = new HTTPRoute('GET', '/test', '', '');
+        $route2 = new HTTPRoute('POST', '/test', '', '');
 
         // Act
         $group->addRoute($route1);
@@ -65,7 +65,7 @@ final class HTTPRouteGroupTest extends TestCase
     {
         // Arrange
         $group = $this->getTestRouteGroup();
-        $route = new HTTPRoute('GET', '/test', 2, '', '');
+        $route = new HTTPRoute('GET', '/test', '', '');
         $group->addRoute($route);
 
         // Act
@@ -79,7 +79,7 @@ final class HTTPRouteGroupTest extends TestCase
     {
         // Arrange
         $group = $this->getTestRouteGroup();
-        $route = new HTTPRoute('GET', '/test', 2, '', '');
+        $route = new HTTPRoute('GET', '/test', '', '');
 
         // Act
         $routeExists = $group->routeExists($route);
@@ -90,6 +90,6 @@ final class HTTPRouteGroupTest extends TestCase
 
     private function getTestRouteGroup(): HTTPRouteGroup
     {
-        return new HTTPRouteGroup('/test', 1);
+        return new HTTPRouteGroup('/test');
     }
 }
