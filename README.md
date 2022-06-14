@@ -12,13 +12,12 @@ A simple package that provides you with a framework agnostic router.
         - [Defining routes manually](#defining-routes-manually)
         - [Defining routes through attributes](#defining-routes-through-attributes)
         - [Defining group routes](#defining-group-routes)
-        - [Dispatching routes](#dispatching-routes)
-        - [Writing a custom dispatcher](#writing-a-custom-dispatcher)
+        - [Integrating a routing backend](#integrating-a-routing-backend)
 
 <!-- /TOC -->
 
 ## What is this exactly?
-PHPAbstractRouter is a framework agnostic router that lets you define routes manually, or through attributes. It is up to the person using this package to create a custom dispatcher class that actually bridges the abstract router with their framework/library of choice.
+PHPAbstractRouter is a framework agnostic router that lets you define routes manually, or through attributes. It is up to the person using this package to provide the router with an actual routing backend. A backend could be a framework (like slim 4), or an actual router (like FastRoute).
 
 ## Installation
 ```bash
@@ -27,28 +26,23 @@ $ composer require guyliangilsing/php-abstract-router
 
 ## Usage
 ### Defining routes manually
-You can manually define routes through the `RouterFacade`:
+You can manually define routes through the `Router` class:
 ```php
-use GuylianGilsing\PHPAbstractRouter\HTTP\Facades\Routing\RouterFacade;
+use use PHPAbstractRouter\HTTP\Router;;
 
-$dispatcher = // Your custom dispatcher here...
-$router = new RouterFacade($dispatcher);
+$routeRegisterer = // Your bridge class...
+$router = new Router($routeRegisterer);
 
-// Without chaining
-$router->register()->get('/', MyController::class,'renderIndex');
-$router->register()->get('/about', MyController::class, 'renderAbout');
-
-// With chaining
-$router->register()->get('/', MyController::class,'renderIndex')
-                    ->get('/about', MyController::class, 'renderAbout');
+$router->get('/', MyController::class,'renderIndex');
+$router->get('/about', MyController::class, 'renderAbout');
 ```
 
 ### Defining routes through attributes
 You can define your routes inside classes through attributes:
 ```php
-use GuylianGilsing\PHPAbstractRouter\HTTP\GET;
-use GuylianGilsing\PHPAbstractRouter\HTTP\Group;
-use GuylianGilsing\PHPAbstractRouter\HTTP\POST;
+use PHPAbstractRouter\HTTP\Attributes\GET;
+use PHPAbstractRouter\HTTP\Attributes\Group;
+use PHPAbstractRouter\HTTP\Attributes\POST;
 
 #[Group('/test')]
 final class MyController
@@ -81,60 +75,47 @@ final class MyController
 
 Once you have defined your routes, you then can let the `RouterFacade` collect them:
 ```php
-use GuylianGilsing\PHPAbstractRouter\HTTP\Facades\Routing\RouterFacade;
+use use PHPAbstractRouter\HTTP\Router;;
 
-$dispatcher = // Your custom dispatcher here...
-$router = new RouterFacade($dispatcher);
+$routeRegisterer = // Your bridge class...
+$router = new Router($routeRegisterer);
 
-// Without chaining
-$router->register()->fromClass(MyController::class);
+$router->fromClass(MyController::class);
 ```
 
 ### Defining group routes
-Group routes can be defined through the `GroupRouteRegistererFacade` facade:
+Group routes can be defined through the `GroupRouter` class:
 ```php
-use GuylianGilsing\PHPAbstractRouter\HTTP\Facades\Routing\RouterFacade;
-use GuylianGilsing\PHPAbstractRouter\HTTP\Facades\Routing\GroupRouteRegistererFacade;
+use PHPAbstractRouter\HTTP\GroupRouter;
+use PHPAbstractRouter\HTTP\Router;
 
 $dispatcher = // Your custom dispatcher here...
 $router = new RouterFacade($dispatcher);
 
-$router->register()->group('/test', function(GroupRouteRegistererFacade $group) {
+$router->group('/test', function(GroupRouter $group) {
     $group->get('', MyController::class, 'renderIndex');
     $group->get('/about', MyController::class, 'renderAbout');
 });
 ```
 
-### Dispatching routes
-Dispatching routes basically means to register the collected routes with your framework/library of choice. Dispatching can be done through the `dispatch()` method that is present on the `RouterFacade`:
+### Integrating a routing backend
+To integrate your preferred routing backend, you only have to implement the `BackendRouteRegistererInterface` interface:
+
 ```php
-use GuylianGilsing\PHPAbstractRouter\HTTP\Facades\Routing\RouterFacade;
+use PHPAbstractRouter\HTTP\BackendRouteRegistererInterface;
 
-$dispatcher = // Your custom dispatcher here...
-$router = new RouterFacade($dispatcher);
-
-// Register your routes here...
-
-$router->dispatch();
-```
-
-### Writing a custom dispatcher
-Dispatchers only have to implement the `HTTPRouteDispatcherInterface` interface to work with the abstract router:
-```php
-use GuylianGilsing\PHPAbstractRouter\Dispatching\HTTP\HTTPRouteDispatcherInterface;
-
-final class MyDispatcher implements HTTPRouteDispatcherInterface
+final class BackendRouteRegisterer implements BackendRouteRegistererInterface
 {
-    /**
-     * Dispatches a list of HTTP route collections.
-     *
-     * @param array<HTTPRouteCollectionInterface> $routeCollections
-     */
-    public function dispatch(array $routeCollections): void
+    public function route(HTTPRoute $route): void
     {
-        // Your registration logic here...
+        // Todo:: Implement your registration logic here...
+    }
+
+    public function routeGroup(HTTPRouteGroup $group): void
+    {
+        // Todo:: Implement your registration logic here...
     }
 }
 ```
 
-When the `dispatch()` method on the `RouterFacade` class is being called, it will send an array of `HTTPRouteCollectionInterface` to the dispatcher. Each collection contains all registered routes.
+Once you have implemented this interface, you can pass it to the `Router` class through its constructor.

@@ -11,23 +11,16 @@
     ],
     "autoload": {
         "psr-4": {
-            "GuylianGilsing\\PHPAbstractRouter\\": "./src",
-            "GuylianGilsing\\PHPAbstractRouter\\Collections\\": "./src/Collections",
-            "GuylianGilsing\\PHPAbstractRouter\\Collections\\HTTP\\": "./src/Collections/HTTP",
-            "GuylianGilsing\\PHPAbstractRouter\\Collections\\Ordering\\": "./src/Collections/Ordering",
-            "GuylianGilsing\\PHPAbstractRouter\\Dispatching\\": "./src/Dispatching",
-            "GuylianGilsing\\PHPAbstractRouter\\Dispatching\\HTTP\\": "./src/Dispatching/HTTP",
-            "GuylianGilsing\\PHPAbstractRouter\\HTTP\\": "./src/HTTP",
-            "GuylianGilsing\\PHPAbstractRouter\\HTTP\\Collecting\\": "./src/HTTP/Collecting",
-            "GuylianGilsing\\PHPAbstractRouter\\HTTP\\Collecting\\Creators\\": "./src/HTTP/Collecting/Creators",
-            "GuylianGilsing\\PHPAbstractRouter\\HTTP\\Collecting\\Extracting\\": "./src/HTTP/Collecting/Extracting",
-            "GuylianGilsing\\PHPAbstractRouter\\HTTP\\Collecting\\Ordering\\": "./src/HTTP/Collecting/Ordering",
-            "GuylianGilsing\\PHPAbstractRouter\\HTTP\\Deserialization\\": "./src/HTTP/Serialization",
-            "GuylianGilsing\\PHPAbstractRouter\\HTTP\\Facades\\": "./src/HTTP/Facades",
-            "GuylianGilsing\\PHPAbstractRouter\\HTTP\\Facades\\Routing\\": "./src/HTTP/Facades/Routing",
-            "GuylianGilsing\\PHPAbstractRouter\\HTTP\\Serialization\\": "./src/HTTP/Serialization",
-            "GuylianGilsing\\PHPAbstractRouter\\HTTP\\Validation\\": "./src/HTTP/Validation",
-            "GuylianGilsing\\PHPAbstractRouter\\HTTP\\Validation\\Middleware\\": "./src/HTTP/Validation/Middleware"
+            "PHPAbstractRouter\\": "./src",
+            "PHPAbstractRouter\\HTTP\\": "./src/HTTP",
+            "PHPAbstractRouter\\HTTP\\Abstractions\\": "./src/HTTP/Abstractions",
+            "PHPAbstractRouter\\HTTP\\Abstractions\\Deserialization\\": "./src/HTTP/Abstractions/Deserialization",
+            "PHPAbstractRouter\\HTTP\\Attributes\\": "./src/HTTP/Attributes",
+            "PHPAbstractRouter\\HTTP\\Attributes\\Collecting\\": "./src/HTTP/Attributes/Collecting",
+            "PHPAbstractRouter\\HTTP\\Attributes\\Extracting\\": "./src/HTTP/Attributes/Extracting",
+            "PHPAbstractRouter\\HTTP\\Attributes\\Extracting\\Extractors\\": "./src/HTTP/Attributes/Extracting/Extractors",
+            "PHPAbstractRouter\\HTTP\\Validation\\": "./src/HTTP/Validation",
+            "PHPAbstractRouter\\HTTP\\Validation\\Middleware\\": "./src/HTTP/Validation/Middleware"
         }
     },
     "require-dev": {
