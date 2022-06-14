@@ -10,7 +10,7 @@ use PHPAbstractRouter\HTTP\Abstractions\HTTPRouteGroup;
 /**
  * Interface for intermediary classes that act as a bridge between the abstract router and an actual backend.
  */
-interface RouteRegistererInterface
+interface BackendRouteRegistererInterface
 {
     public function route(HTTPRoute $route): void;
     public function routeGroup(HTTPRouteGroup $group): void;

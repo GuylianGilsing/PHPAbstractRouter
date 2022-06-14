@@ -6,19 +6,14 @@ namespace PHPAbstractRouter\HTTP;
 
 use PHPAbstractRouter\HTTP\Abstractions\HTTPRoute;
 use PHPAbstractRouter\HTTP\Abstractions\HTTPRouteGroup;
-use PHPAbstractRouter\HTTP\Attributes\Collecting\RouteAttributeCollectorInterface;
 
-final class Router
+final class GroupRouter
 {
-    private BackendRouteRegistererInterface $backendRouteRegisterer;
-    private RouteAttributeCollectorInterface $routeAttributeCollector;
+    private HTTPRouteGroup $group;
 
-    public function __construct(
-        BackendRouteRegistererInterface $backendRouteRegisterer,
-        RouteAttributeCollectorInterface $routeAttributeCollector
-    ) {
-        $this->backendRouteRegisterer = $backendRouteRegisterer;
-        $this->routeAttributeCollector = $routeAttributeCollector;
+    public function __construct(HTTPRouteGroup $group)
+    {
+        $this->group = $group;
     }
 
     /**
@@ -117,45 +112,6 @@ final class Router
     }
 
     /**
-     * @param array<string> $middlewareStack An array of `CLASS_NAME_HERE::class` strings.
-     * Middleware will be invoked through class magic methods,
-     */
-    public function group(string $path, callable $callback, array $middlewareStack = []): void
-    {
-        $group = new HTTPRouteGroup($path, $middlewareStack);
-
-        $routeRegisterer = new GroupRouter($group);
-        call_user_func($callback, $routeRegisterer);
-
-        if ($group->getTotalRouteCount() > 0)
-        {
-            $this->backendRouteRegisterer->routeGroup($group);
-        }
-    }
-
-    /**
-     * Registers routes from a controller class.
-     *
-     * @param string $className The `CLASS_NAME_HERE::class` string.
-     */
-    public function controller(string $className): void
-    {
-        $extractedRoutes = $this->routeAttributeCollector->fromClass($className);
-
-        foreach ($extractedRoutes as $extractedRoute)
-        {
-            if ($extractedRoute instanceof HTTPRoute)
-            {
-                $this->backendRouteRegisterer->route($extractedRoute);
-            }
-            elseif ($extractedRoute instanceof HTTPRouteGroup)
-            {
-                $this->backendRouteRegisterer->routeGroup($extractedRoute);
-            }
-        }
-    }
-
-    /**
      * Registeres the route with the intermediary class.
      *
      * @param string $method The route's HTTP method.
@@ -174,6 +130,6 @@ final class Router
         array $middlewareStack = []
     ): void {
         $route = new HTTPRoute($method, $path, $className, $classMethod, $middlewareStack);
-        $this->backendRouteRegisterer->route($route);
+        $this->group->addRoute($route);
     }
 }
